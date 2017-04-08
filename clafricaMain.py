@@ -8,8 +8,7 @@ Main file to call all module and run the program
 from tkinter import * 
 import processText as pr
 import translateText as tr
-import claf # Clafrica code as literal objectfεte
-from winioctlcon import AIT1_8mm
+import claf # Clafrica code as literal object
 
 
 class GuiHandle():
@@ -44,17 +43,16 @@ class GuiHandle():
             """Stop program and set the global flag to False."""
             global keyType
             global flag
-            global isRunning 
             tr.flag = False
-            tr.isRunning = False
         ''' internal function onClose to handle close window event on callback''' 
         def onClose():
             """Stop program and set the global flag to False."""
             global keyType
-            global flag
+            global isRunning 
             stopClafrica()
             tr.keyType.press(tr.Key.esc)
             tr.keyType.release(tr.Key.esc)
+            tr.isRunning = False
             root.destroy()   # stops the main loop
             sys.exit(1)
         
@@ -77,10 +75,10 @@ def main():
     proc = pr.ProcessText(claf.codeClafrica)
     thread1 = tr.TranslateText(proc,6)
     thread2 = tr.TranslateText(proc)
-    thread1.daemon=True #making deamon to close the close it when the main threa vət fεt fεte  
+    thread1.daemon=True #making deamon to close the close it when the main threat is finished
     thread2.daemon=True
     gui = GuiHandle()
-    thread3 = tr.TranslateText(proc,0,True,gui)
+    thread3 = tr.TranslateText(proc,0,gui)
     thread3.daemon=True
     try:
         thread3.start()
